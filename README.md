@@ -5,11 +5,10 @@
 ## Tools
 
 The GLoVe embedding software includes 4 tools:
-
-    1. vocab_count
-    1. cooccur
-    1. shuffle
-    1. glove
+1. vocab_count
+2. cooccur
+3. shuffle
+4. glove
 
 Each of these has a unique feature.
 
