@@ -72,13 +72,29 @@ class CorpusService:
         self.metaboliteConcentration = metaboliteConcentration
         self.filepath = filepath
 
-    def CreateCorpusFile(self, corpi):
-        """CreateCorpus file accepts a list of dictionaries where the key is the
-        name and the value is the number and writes the data to self.filepath"""
+    def CreateCorpusFile(self, abundanceMatrix, concentrationMatrix, species, metabolites, threshold):
+        """CreateCorpusFile accepts a matrix of abundances and a matrix of concentrations as well as the 
+        metabolite and species names. It then iterates row wise over the concentrations/abundances. While iterating
+        through each column, if the current value is greater than threshold, then the corresponding name gets printed to the outfile."""
         f = open(self.filepath, 'w')
-        for corpus in corpi:
-            for k, v in corpus.items():
-                f.write('{} {}\n'.format(k, v))
+        if len(abundanceMatrix) != len(concentrationMatrix):
+            print('matrix sizes do not match.')
+            return
+        for i in range(0, len(abundanceMatrix)):
+            somethingWritten = False
+            aRow = abundanceMatrix[i]
+            for j in range(0, len(aRow)):
+                if float(aRow[j]) > threshold:
+                    somethingWritten = True
+                    f.write("{} ".format(species[j]))
+            cRow = concentrationMatrix[i]
+            for j in range(0, len(cRow)):
+                if float(cRow[j]) > threshold:
+                    somethingWritten = True
+                    f.write("{} ".format(metabolites[j]))
+            if somethingWritten:
+                f.write("\n")
+        f.close()
 
     def CreateCorpusDict(self, names, values):
         corpus = {}
@@ -143,8 +159,8 @@ if __name__ == "__main__":
 
     species = csvService.CleanNames(species)
     metabolites = csvService.CleanNames(metabolites) 
+
     corpusService = CorpusService(species, metabolites, abundances, concentrations, "corpus.txt")
     averageAbundances, averageConcentrations = corpusService.CreateAverageCorpus()
-    speciesCorpus = corpusService.CreateCorpusDict(species, averageAbundances)
-    metaboliteCorpus = corpusService.CreateCorpusDict(metabolites, averageConcentrations)
-    corpusService.CreateCorpusFile([speciesCorpus, metaboliteCorpus])
+    # abundanceMatrix, concentrationMatrix, species, metabolites, threshold)
+    corpusService.CreateCorpusFile(abundances, concentrations, species, metabolites, 0)
