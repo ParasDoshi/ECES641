@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-CORPUS=text8
-VOCAB_FILE=corpus.txt
+CORPUS=corpus.txt
+VOCAB_FILE=out.txt
 COOCCURRENCE_FILE=cooccurrence.bin
 COOCCURRENCE_SHUF_FILE=cooccurrence.shuf.bin
 BUILDDIR=build
