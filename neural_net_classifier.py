@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.neural_network import MLPClassifier
 from sklearn.metrics import accuracy_score, precision_recall_curve,recall_score,f1_score,matthews_corrcoef
-import confusion_matrix_pretty_print as cmprint
+#import confusion_matrix_pretty_print as cmprint
 import csv
 
 def show_metrics(mdl, X, y_true, y_pred):
@@ -16,8 +16,8 @@ def show_metrics(mdl, X, y_true, y_pred):
 
 
 
-data_dir = 'C:/Users/mk344/OneDrive - Drexel University/Drexel courses/Fall Quarter 2019-2020/ECEC 487/microbiome_glove_embedding/data'
-fig_dir = 'C:/Users/mk344/OneDrive - Drexel University/Drexel courses/Fall Quarter 2019-2020/ECEC 487/microbiome_glove_embedding/figures'
+data_dir = '.'
+fig_dir = '.'
 
 f = open(os.path.join(data_dir, "X_sample_property.obj"), "rb")
 X = pickle.load(f)
@@ -28,18 +28,18 @@ f.close()
 y = list(y[0].values)
 
 # data for classisifaction on otu tables
-f = open(os.path.join(data_dir, "otu_test_.07.obj"), "rb")
-otu_test = pickle.load(f)
-f.close()
-f = open(os.path.join(data_dir, "otu_train_.07.obj"), "rb")
-otu_train = pickle.load(f)
-f.close()
-f = open(os.path.join(data_dir, "map_test_.07.obj"), "rb")
-map_test = pickle.load(f)
-f.close()
-f = open(os.path.join(data_dir, "map_train_.07.obj"), "rb")
-map_train = pickle.load(f)
-f.close()
+#f = open(os.path.join(data_dir, "otu_test_.07.obj"), "rb")
+#otu_test = pickle.load(f)
+#f.close()
+#f = open(os.path.join(data_dir, "otu_train_.07.obj"), "rb")
+#otu_train = pickle.load(f)
+#f.close()
+#f = open(os.path.join(data_dir, "map_test_.07.obj"), "rb")
+#map_test = pickle.load(f)
+#f.close()
+#f = open(os.path.join(data_dir, "map_train_.07.obj"), "rb")
+#map_train = pickle.load(f)
+#f.close()
 
 # creating the train and test dataset
 X_train_embedding, X_test_embedding, y_train_embedding, y_test_embedding = train_test_split(X, y, test_size=0.2, random_state=42)
