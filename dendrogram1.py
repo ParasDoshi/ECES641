@@ -39,34 +39,14 @@ plt.savefig("tsne_plot.png",dpi=1000)
 plt.show()
 
 
-print("Running AgglomerativeClustering algorithm")
-knn_graph = kneighbors_graph(X, 15, include_self=False)
-for connectivity in (None, knn_graph):
-    for n_clusters in (240, 160):
-        plt.figure(figsize=(10, 4))
-        for index, linkage in enumerate(('average',
-                                         'complete',
-                                         'ward',
-                                         'single')):
-            plt.subplot(1, 4, index + 1)
-            model = AgglomerativeClustering(linkage=linkage,
-                                            connectivity=connectivity,
-                                            n_clusters=n_clusters)
-            t0 = time.time()
-            model.fit(X)
-            elapsed_time = time.time() - t0
-            plt.scatter(X[:, 0], X[:, 1], c=model.labels_,
-                        cmap=plt.cm.nipy_spectral,s=0.4)
-            plt.title('linkage=%s\n(time %.2fs)' % (linkage, elapsed_time),
-                      fontdict=dict(verticalalignment='top'))
-            plt.axis('equal')
-            plt.axis('off')
-
-            plt.subplots_adjust(bottom=0, top=.89, wspace=0,
-                                left=0, right=1)
-            plt.suptitle('n_cluster=%i, connectivity=%r' %
-                         (n_clusters, connectivity is not None), size=17)
-
+print("Creating Dendrogram now")
+linked = linkage(vectors[:1000], 'ward')
+labelList=words[:1000]
+fig = plt.figure(figsize=(50,50))
+dendrogram(linked,
+            orientation='top',
+            labels=labelList,
+            distance_sort='descending',
+            show_leaf_counts=True)
+plt.savefig("dendrogram.png",dpi=500)
 plt.show()
-
-
