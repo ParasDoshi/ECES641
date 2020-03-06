@@ -2,19 +2,20 @@ import os.path
 import pickle
 import time
 import numpy as np
-%matplotlib inline
+# %matplotlib inline
 import matplotlib.pyplot as plt
 from scipy import spatial
 from sklearn.manifold import TSNE
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.neighbors import kneighbors_graph
+from scipy.cluster.hierarchy import dendrogram, linkage
 
 
 
 if os.path.isfile('tsne_output.pkl'):
     print("tsne_output.pkl exists so loading file")
     with open('tsne_output.pkl','rb') as f:  # Python 3: open(..., 'rb')
-        X = pickle.load(f)
+        words,vectors,X = pickle.load(f)
 else:
     embeddings_dict = {}
     with open("vectors.txt", 'r') as f:
@@ -30,7 +31,7 @@ else:
     X = tsne.fit_transform(vectors)
     #save file 
     with open('tsne_output.pkl', 'wb') as f:  # Python 3: open(..., 'wb')
-        pickle.dump(Y, f)
+        pickle.dump([words,vectors,X], f)
 
 plt.scatter(X[:, 0], X[:, 1], s=0.4)
 plt.title("Scatter Plot of Processed GloVe Vectors t-SNE")
@@ -66,5 +67,16 @@ for connectivity in (None, knn_graph):
             plt.suptitle('n_cluster=%i, connectivity=%r' %
                          (n_clusters, connectivity is not None), size=17)
 
-
 plt.show()
+
+print("Creating Dendrogram now")
+linked = linkage(vectors[:100], 'ward')
+labelList=words[:100]
+dendrogram(linked,
+            orientation='top',
+            labels=labelList,
+            distance_sort='descending',
+            show_leaf_counts=True)
+plt.show()
+plt.savefig("dendrogram.png",dpi=400)
+
